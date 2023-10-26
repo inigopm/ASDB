@@ -4,3 +4,6 @@ os
 pathlib
 datetime
 shutil
+pyarrow
+fastparquet
+matplotlib
