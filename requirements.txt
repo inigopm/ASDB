@@ -1,0 +1,6 @@
+duckdb
+pandas
+os
+pathlib
+datetime
+shutil
