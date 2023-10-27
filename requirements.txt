@@ -7,3 +7,4 @@ pytest-shutil
 pyarrow
 fastparquet
 matplotlib
+openpyxl
