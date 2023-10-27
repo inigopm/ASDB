@@ -1,4 +1,4 @@
-ADSDB_PATH= "C:/Users/inigo/Documents/UPC/ASDB/ASDB/"
+# ADSDB_PATH= "C:/Users/inigo/Documents/UPC/ASDB/ASDB/"
 FORMATTED_PATH = "formatted/articles/"
 TRUSTED_PATH = "trusted/articles/"
 METADATA_PATH = "metadata/"
@@ -10,14 +10,14 @@ from pathlib import Path
 
 # Coger ultimo archivo
 formatted_paths = [
-    Path(ADSDB_PATH + FORMATTED_PATH + file_name)
-    for file_name in os.listdir(ADSDB_PATH + FORMATTED_PATH)
+    Path(FORMATTED_PATH + file_name)
+    for file_name in os.listdir(FORMATTED_PATH)
 ]
 latest_file = sorted(formatted_paths)[-1]
 
 # Cargar archivo
 df = pd.read_csv(latest_file)
-df_big = pd.read_csv(os.path.join(ADSDB_PATH, TRUSTED_PATH, "articles.csv"))
+df_big = pd.read_csv(os.path.join(TRUSTED_PATH, "articles.csv"))
 
 # Quitar las columnas que no nos interesan
 df_filtered = df.iloc[:, 1:].drop(columns=['DATEADDED', 'SOURCEURL', 'MonthYear', 'Year', 'FractionDate'])
@@ -83,6 +83,6 @@ df_big = pd.concat([df_big, new_entries], ignore_index=True)
 
 # Guardarlo en el trusted
 
-df_big.to_csv(os.path.join(ADSDB_PATH, TRUSTED_PATH, "articles.csv"))
+df_big.to_csv(os.path.join(TRUSTED_PATH, "articles.csv"))
 
 print(df_big)

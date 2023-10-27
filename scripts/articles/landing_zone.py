@@ -12,7 +12,7 @@ import datetime
 import shutil
 import os
 
-LANDING_PATH = "C:/Users/inigo/Documents/UPC/ASDB/ASDB/landing/"
+LANDING_PATH = "landing/"
 TEMPORAL_PATH = "temporal/"
 PERSISTENT_PATH = "persistent/articles/"
 PERSISTENT_FILE_NAME = "articles"

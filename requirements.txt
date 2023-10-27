@@ -1,9 +1,9 @@
 duckdb
 pandas
-os
+os-sys
 pathlib
 datetime
-shutil
+pytest-shutil
 pyarrow
 fastparquet
 matplotlib
