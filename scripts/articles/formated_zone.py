@@ -34,5 +34,5 @@ samples_df.columns = header_df.columns
 # 3. Mostrar el DataFrame resultante (samples_df)
 print(samples_df)
 
-# Guardarlo en el formatted
-samples_df.to_csv(os.path.join(FORMATTED_PATH, os.path.basename(latest_file)))
+# Save in formatted zone
+samples_df.to_csv(os.path.join(FORMATTED_PATH, os.path.basename(latest_file)), index=False)
