@@ -7,82 +7,71 @@ import duckdb
 import pandas as pd
 import os
 from pathlib import Path
+import matplotlib.pyplot as plt
 
-# Coger ultimo archivo
+# Take most recent file
 formatted_paths = [
     Path(FORMATTED_PATH + file_name)
     for file_name in os.listdir(FORMATTED_PATH)
 ]
 latest_file = sorted(formatted_paths)[-1]
 
-# Cargar archivo
+# Load file
 df = pd.read_csv(latest_file)
 df_big = pd.read_csv(os.path.join(TRUSTED_PATH, "articles.csv"))
 
-# Quitar las columnas que no nos interesan
-df_filtered = df.iloc[:, 1:].drop(columns=['DATEADDED', 'SOURCEURL', 'MonthYear', 'Year', 'FractionDate'])
+# Remove unnecesary columns
+df_filtered = df.drop(columns=['DATEADDED', 'SOURCEURL', 'MonthYear', 'Year', 'FractionDate'])
 
-# Convertir la columna "SQLDATE" a un objeto datetime
+# Set the column "SQLDATE to a datetime object
 df_filtered['SQLDATE'] = pd.to_datetime(df_filtered['SQLDATE'], format='%Y%m%d')
-
-# Reformatear la fecha al formato deseado y reemplazar la columna original
 df_filtered['SQLDATE'] = df_filtered['SQLDATE'].dt.strftime('%Y-%m-%d')
 
-# Filtar por pais y coger solo los articulos relacionados con España.
+# Filter er country and take only the articles related to Spain.
 condition1 = df_filtered['Actor1Geo_CountryCode'].str.contains('SP', na=False)
 condition2 = df_filtered['Actor2Geo_CountryCode'].str.contains('SP', na=False)
 
 df_filtered = df_filtered[condition1 | condition2]
 
-print(df_filtered)
+"""## Missing values"""
 
-# # Conectar con DuckDB
-# con = duckdb.connect(database=':memory:', read_only=False)
+# Calculate percentage of missing values per column
+missing_percentage = (df_filtered.isnull().sum() / len(df_filtered)) * 100
 
-# # Cargar los archivos en DuckDB y Pandas
-# con.execute("CREATE TABLE df AS SELECT * FROM read_csv_auto(?)", (str(latest_file),))
-# df_big = pd.read_csv(os.path.join(ADSDB_PATH, TRUSTED_PATH, "articles.csv"))
+# Calculate de total number of missing values
+total_missing = df_filtered.isnull().sum().sum()
+total_percentage_missing = (total_missing / (df.shape[0] * df.shape[1])) * 100
 
-# # Quitar las columnas que no nos interesan
-# columns_to_remove = ['DATEADDED', 'SOURCEURL', 'MonthYear', 'Year', 'FractionDate']
-# columns_in_df = con.execute("PRAGMA table_info(df)").fetchdf()['name'].tolist()
-# columns_to_select = [col for col in columns_in_df if col not in columns_to_remove]
+print(f"Overall percentage of missing values: {total_percentage_missing:.2f}%")
 
-# # Usar sentencias SQL para operaciones
-# sql = f"""
-#     SELECT {', '.join(columns_to_select)}
-#     FROM df
-#     WHERE Actor1Geo_CountryCode LIKE '%%SP%%' OR Actor2Geo_CountryCode LIKE '%%SP%%'
-# """
+# Plotting
+missing_percentage.plot(kind='bar', color='skyblue', edgecolor='black')
+plt.title('Percentage of Missing Values Per Column')
+plt.ylabel('Percentage (%)')
+plt.xlabel('Columns')
+plt.show()
 
-# df_filtered = con.execute(sql).fetchdf()
+# There are some columns with a missing data percentage of near 100% (not only in this new data but also in old ones), that's why we're going to remove them
+columns = ['Actor1KnownGroupCode', 'Actor1EthnicCode', 'Actor1Religion1Code', 'Actor1Religion2Code',
+           'Actor1Type2Code', 'Actor1Type3Code', 'Actor2KnownGroupCode', 'Actor2EthnicCode',
+            'Actor2Religion1Code', 'Actor2Religion2Code', 'Actor2Type2Code', 'Actor2Type3Code'
+          ]
+df_filtered = df_filtered.drop(columns=columns)
 
-# con.close()
+# Calculate de total number of missing values for this new filtered data
+total_missing = df_filtered.isnull().sum().sum()
 
-# # Establecer 'GLOBALEVENTID' como el índice del DataFrame
-# df_filtered.set_index('GLOBALEVENTID', inplace=True)
-# df_filtered.drop(columns=['column00'], inplace=True)
+total_percentage_missing = (total_missing / (df.shape[0] * df.shape[1])) * 100
 
-# # Convertir la columna "SQLDATE" a un objeto datetime
-# df_filtered['SQLDATE'] = pd.to_datetime(df_filtered['SQLDATE'], format='%Y%m%d')
+print(f"Overall percentage of missing values: {total_percentage_missing:.2f}%")
 
-# # Reformatear la fecha al formato deseado y reemplazar la columna original
-# df_filtered['SQLDATE'] = df_filtered['SQLDATE'].dt.strftime('%Y-%m-%d')
+df_filtered.head()
 
-# print(df_filtered)
-
-# Añadir las muestras filtradas al dataset.
-# Identificar las filas de df_filtered que no están en df_main
+# Add new filtered samples into the dataset.
 mask = ~df_filtered['GLOBALEVENTID'].isin(df_big['GLOBALEVENTID'])
-
-# Filtrar df_filtered usando la máscara
 new_entries = df_filtered[mask]
 
-# Agregar estas nuevas entradas al DataFrame principal
 df_big = pd.concat([df_big, new_entries], ignore_index=True)
 
-# Guardarlo en el trusted
-
-df_big.to_csv(os.path.join(TRUSTED_PATH, "articles.csv"))
-
-print(df_big)
+# Save in trusted zone
+df_big.to_csv(os.path.join(TRUSTED_PATH, "articles.csv"), index=False)
