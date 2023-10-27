@@ -7,7 +7,6 @@ import duckdb
 import pandas as pd
 import os
 from pathlib import Path
-import matplotlib.pyplot as plt
 
 # Take most recent file
 formatted_paths = [
@@ -43,13 +42,6 @@ total_missing = df_filtered.isnull().sum().sum()
 total_percentage_missing = (total_missing / (df.shape[0] * df.shape[1])) * 100
 
 print(f"Overall percentage of missing values: {total_percentage_missing:.2f}%")
-
-# Plotting
-missing_percentage.plot(kind='bar', color='skyblue', edgecolor='black')
-plt.title('Percentage of Missing Values Per Column')
-plt.ylabel('Percentage (%)')
-plt.xlabel('Columns')
-plt.show()
 
 # There are some columns with a missing data percentage of near 100% (not only in this new data but also in old ones), that's why we're going to remove them
 columns = ['Actor1KnownGroupCode', 'Actor1EthnicCode', 'Actor1Religion1Code', 'Actor1Religion2Code',
