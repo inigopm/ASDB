@@ -8,3 +8,4 @@ pyarrow
 fastparquet
 matplotlib
 openpyxl
+memory_profiler
