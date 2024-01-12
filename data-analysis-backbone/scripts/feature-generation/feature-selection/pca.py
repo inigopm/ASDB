@@ -34,11 +34,11 @@ daily_metrics_pca = pd.DataFrame(
 
 """The first output shows the explained variance ratio of each component, which is the proportion of the total variance in the data that is explained by that component. For example, the first component explains about 29% of the variance, the second component explains about 21%, and so on. The sum of the explained variance ratios of all the components is equal to 1."""
 
-print(pca.explained_variance_ratio_)
+# print(pca.explained_variance_ratio_)
 
 """The second output shows the explained variance of each component, which is the amount of variance in the data that is explained by that component. For example, the first component explains about 4.07 units of variance, the second component explains about 2.91 units, and so on. The sum of the explained variances of all the components is equal to the total variance in the data."""
 
-print(pca.explained_variance_)
+# print(pca.explained_variance_)
 
 """The third output shows the components themselves, which are the linear combinations of the original features that form the new axes
 . Each row represents a component, and each column represents a feature. The values in the matrix are the coefficients or loadings of the features for each component
@@ -47,7 +47,7 @@ print(pca.explained_variance_)
 The loadings indicate how much each feature contributes to each component, and the sign indicates the direction of the contribution. A high absolute value of a loading means that the feature is important for that component, and a low absolute value means that the feature is less important. For example, you can see that fish_and_seafood_price and meat_price have high negative loadings on the first component, which means that they are important and negatively correlated with that component.
 """
 
-print(pca.components_)
+# print(pca.components_)
 
 """As explained on the last section, the first 3 Principal Components are selected as they explain almost 70% of the variance.
 
@@ -57,7 +57,7 @@ Then, for each column, we measure how much
 import matplotlib.pyplot as plt
 
 relevant_components_explained_variance = sum(pca.explained_variance_ratio_[0:3]) * 100
-print(f"First 3 PC explain {relevant_components_explained_variance:.2f}% variance")
+# print(f"First 3 PC explain {relevant_components_explained_variance:.2f}% variance")
 
 
 pca_plot = (

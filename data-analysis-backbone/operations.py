@@ -21,9 +21,9 @@ def main():
 
     print("Running FEATURE-GENERATION")
     runpy.run_path(PATH_FEATURE_GENERATION + PATH_DATA_PREPARATION + "regression_model.py")
-    # runpy.run_path(PATH_FEATURE_GENERATION + PATH_DATA_PREPARATION + "pca.py")
+    runpy.run_path(PATH_FEATURE_GENERATION + PATH_DATA_PREPARATION + "pca.py")
 
-    # runpy.run_path(PATH_FEATURE_GENERATION + PATH_FEATURE_SELECTION + "pca.py")
+    runpy.run_path(PATH_FEATURE_GENERATION + PATH_FEATURE_SELECTION + "pca.py")
 
     runpy.run_path(PATH_FEATURE_GENERATION + PATH_LABELLING + "regression_model.py")
 
