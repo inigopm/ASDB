@@ -11,4 +11,5 @@ openpyxl
 memory_profiler
 scikit-learn
 joblib
+json
 seaborn

@@ -21,10 +21,13 @@ from joblib import dump
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+import json
+
 ROOT_PATH = "./"
 TRAINED_MODEL = "model-training/trained-model/"
 TRAIN_TEST_SPLIT = "model-training/train-test-split/"
 DEPLOYED_MODEL = "deployed-model/"
+METRICS = "model-validation/metrics/"
 PLOTS = "model-validation/plots/"
 
 """Three key regression evaluation metrics are calculated and displayed: Mean Squared Error (MSE), Coefficient of Determination (R²), and Mean Absolute Error (MAE). MSE measures the average squared difference between the observed and predicted values, indicating the model's accuracy, with a lower value being preferable. R², or the coefficient of determination, assesses the proportion of the variance in the dependent variable that is predictable from the independent variables, with a value close to 1 indicating a high explanatory power. MAE calculates the average magnitude of errors in a set of predictions, without considering their direction. Printing these metrics provides a comprehensive overview of the model's performance, combining error magnitude (MSE, MAE) and goodness of fit (R²)."""
@@ -61,6 +64,11 @@ mae = mean_absolute_error(y_test, y_pred)
 # print(f"Mean Squared Error (MSE): {mse}")
 # print(f"Coefficient of determination (R²): {r2}")
 # print(f"Mean Absolute Error (MAE): {mae}")
+
+metrics= {"MSE":mse, "R2":r2, "MAE":mae}
+
+with open(os.path.join(ROOT_PATH, METRICS, 'metrics.json'), 'w') as file:
+    json.dump(metrics, file)
 
 plt.figure(figsize=(10, 6))
 plt.scatter(y_test, y_pred, alpha=0.5)
