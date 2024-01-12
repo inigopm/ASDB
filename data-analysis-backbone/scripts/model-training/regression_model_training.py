@@ -19,7 +19,7 @@ from sklearn.metrics import mean_squared_error
 from joblib import dump
 
 ROOT_PATH = "./"
-TRAIN_TEST_SPLIT = "model-training/train-test-split/"
+TRAIN_TEST_SPLIT = "feature-generation/train-test-split/"
 TRAINED_MODEL = "model-training/trained-model/"
 
 """We have opted to use a linear regression model in order to simplify our approach and enhance the interpretability of the results and report."""

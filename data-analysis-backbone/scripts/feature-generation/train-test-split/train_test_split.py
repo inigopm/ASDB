@@ -16,7 +16,7 @@ from sklearn.metrics import mean_squared_error
 
 ROOT_PATH = "./"
 LABELLING = "feature-generation/labelling/regression_model.parquet"
-TRAIN_TEST_SPLIT = "model-training/train-test-split/"
+TRAIN_TEST_SPLIT = "feature-generation/train-test-split/"
 
 df = pd.read_parquet(
     ROOT_PATH

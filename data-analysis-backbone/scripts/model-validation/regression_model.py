@@ -25,7 +25,7 @@ import json
 
 ROOT_PATH = "./"
 TRAINED_MODEL = "model-training/trained-model/"
-TRAIN_TEST_SPLIT = "model-training/train-test-split/"
+TRAIN_TEST_SPLIT = "feature-generation/train-test-split/"
 DEPLOYED_MODEL = "deployed-model/"
 METRICS = "model-validation/metrics/"
 PLOTS = "model-validation/plots/"

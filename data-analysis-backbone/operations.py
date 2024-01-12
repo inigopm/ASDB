@@ -9,6 +9,7 @@ PATH_FEATURE_GENERATION = PATH + "feature-generation/"
 PATH_DATA_PREPARATION = "data-preparation/"
 PATH_FEATURE_SELECTION = "feature-selection/"
 PATH_LABELLING = "labelling/"
+PATH_TRAIN_TEST_SPLIT = "train-test-split/"
 # }
 PATH_MODEL_TRAINING = PATH + "model-training/"
 PATH_MODEL_VALIDATION = PATH + "model-validation/"
@@ -27,8 +28,9 @@ def main():
 
     runpy.run_path(PATH_FEATURE_GENERATION + PATH_LABELLING + "regression_model.py")
 
+    runpy.run_path(PATH_FEATURE_GENERATION + PATH_TRAIN_TEST_SPLIT + "train_test_split.py")
+    
     print("Running MODEL-TRAINING")
-    runpy.run_path(PATH_MODEL_TRAINING + "train_test_split.py")
     runpy.run_path(PATH_MODEL_TRAINING + "regression_model_training.py")
 
     print("Running MODEL-VALIDATION")
