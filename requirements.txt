@@ -9,3 +9,6 @@ fastparquet
 matplotlib
 openpyxl
 memory_profiler
+scikit-learn
+joblib
+seaborn
